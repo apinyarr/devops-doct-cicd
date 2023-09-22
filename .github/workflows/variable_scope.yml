@@ -1,0 +1,30 @@
+---
+name: 'Variable Scopes'
+
+on:
+  push:
+    branches: [ "week3/activity1-variable-scopes" ]
+
+env:
+  MY_WORKFLOW_VARIABLE: "This is a workflow-level variable"
+
+permissions:
+  contents: read
+
+jobs:
+  variable_scope:
+    name: 'Variable Scopes'
+    runs-on: ubuntu-22.04
+    environment: development
+    env:
+      MY_JOB_VARIABLE: "This is a job-level variable"
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Define Step's Level variable_scope
+        run: echo "Workflow variable - $MY_WORKFLOW_VARIABLE \n Job variable - $MY_JOB_VARIABLE \n Step variable - $MY_STEP_VARIABLE"
+        env:
+          MY_STEP_VARIABLE: "This is a step-level variable"
