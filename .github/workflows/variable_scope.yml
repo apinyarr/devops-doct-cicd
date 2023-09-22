@@ -24,7 +24,7 @@ jobs:
         shell: bash
 
     steps:
-      - name: Define Step's Level variable_scope
+      - name: Define step's level variables and print variables at all scopes
         run: echo "Workflow variable - $MY_WORKFLOW_VARIABLE \n Job variable - $MY_JOB_VARIABLE \n Step variable - $MY_STEP_VARIABLE"
         env:
           MY_STEP_VARIABLE: "This is a step-level variable"
