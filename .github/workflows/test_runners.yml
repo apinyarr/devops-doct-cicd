@@ -1,0 +1,24 @@
+---
+  name: Test Linux and Windows Runners
+
+  on:
+    push:
+      branches:
+        - self-hosted-runners
+  
+  jobs:
+    windows_job:
+
+      runs-on: windows
+
+      steps:
+        - name: Run Windows Command
+          run: systeminfo
+
+    linux_job:
+
+      runs-on: linux
+
+      steps:
+        - name: Run Linux Command
+          run: uname -a

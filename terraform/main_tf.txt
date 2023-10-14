@@ -1,0 +1,93 @@
+module "runners_sg" {
+  source = "terraform-aws-modules/security-group/aws"
+
+  name        = "runners-sg"
+  description = "Security group for GitHub Runners"
+  # vpc_id      = module.ops_vpc.vpc_id
+
+  ingress_with_cidr_blocks = [
+    {
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      description = "ssh"
+      cidr_blocks = "199.7.157.55/32"
+    },
+    {
+      from_port   = 3306
+      to_port     = 3306
+      protocol    = "tcp"
+      description = "rdp"
+      cidr_blocks = "199.7.157.55/32"
+    },
+  ]
+
+  egress_with_cidr_blocks = [
+    {
+        rule        = "all-all"
+        cidr_blocks = "0.0.0.0/0"
+    },
+  ]
+}
+
+module "ec2_linux_runner" {
+  create = var.create_linux_runner
+
+  source  = "terraform-aws-modules/ec2-instance/aws"
+  version = "~> 3.0"
+
+  name = "cicd_linux_runner"
+
+  ami                    = "ami-0ea18256de20ecdfc"
+  instance_type          = "t2.micro"
+  key_name               = "andy-key"
+  monitoring             = true
+  vpc_security_group_ids = [module.runners_sg.security_group_id]
+  # subnet_id              = module.pre_vpc.public_subnets[0]
+  user_data              = <<EOF
+#!/bin/bash
+mkdir actions-runner && cd actions-runner
+curl -o actions-runner-linux-x64-2.309.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.309.0/actions-runner-linux-x64-2.309.0.tar.gz
+echo "2974243bab2a282349ac833475d241d5273605d3628f0685bd07fb5530f9bb1a  actions-runner-linux-x64-2.309.0.tar.gz" | shasum -a 256 -c
+mv actions-runner-linux-x64-2.309.0.tar.gz /home/ubuntu/ && chown ubuntu:ubuntu /home/ubuntu/actions-runner-linux-x64-2.309.0.tar.gz
+tar xzf /home/ubuntu/actions-runner-linux-x64-2.309.0.tar.gz -C /home/ubuntu && chown -R ubuntu:ubuntu /home/ubuntu/
+sudo -H -u ubuntu bash -c "/home/ubuntu/config.sh --url https://github.com/apinyarr/devops-doct-cicd --token AESNUZXIXC3E3B6QRU3WERLFFHO62 --runnergroup Default --name linux --labels linux --work _work && /home/ubuntu/svc.sh install && /home/ubuntu/svc.sh start"
+  EOF
+
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+  }
+}
+
+module "ec2_windows_runner" {
+  create = var.create_windows_runner
+
+  source  = "terraform-aws-modules/ec2-instance/aws"
+  version = "~> 3.0"
+
+  name = "cicd_windows_runner"
+
+  ami                    = "ami-0ffac754210294cd5"
+  instance_type          = "t2.micro"
+  key_name               = "andy-key"
+  monitoring             = true
+  vpc_security_group_ids = [module.runners_sg.security_group_id]
+  # subnet_id              = module.pre_vpc.public_subnets[0]
+  user_data              = <<EOF
+<script>
+mkdir actions-runner; cd actions-runner
+Invoke-WebRequest -Uri https://github.com/actions/runner/releases/download/v2.310.2/actions-runner-win-x64-2.310.2.zip -OutFile actions-runner-win-x64-2.310.2.zip
+if((Get-FileHash -Path actions-runner-win-x64-2.310.2.zip -Algorithm SHA256).Hash.ToUpper() -ne 'cc4c9e357345a33bd99834daaf2e051730305e0a4e33e5a6b47d39e6a93844e4'.ToUpper()){ throw 'Computed checksum did not match' }
+Add-Type -AssemblyName System.IO.Compression.FileSystem ; [System.IO.Compression.ZipFile]::ExtractToDirectory("$PWD/actions-runner-win-x64-2.310.2.zip", "$PWD")
+./config.cmd --url https://github.com/apinyarr/devops-doct-cicd --token AESNUZQD34X42AUH7K4UK4DFFGAPY
+./powershell .\svcinstall.ps1
+./powershell Start-Service actions.runner.windows
+</script>
+EOF
+
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+  }
+}
