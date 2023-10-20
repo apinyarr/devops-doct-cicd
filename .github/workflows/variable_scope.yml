@@ -33,7 +33,7 @@ jobs:
           MY_STEP_VARIABLE: "This is a step-level variable"
 
       - name: Overide workflow-level in job-level and step-level
-        run: echo -e "WORKFLOW_VAR1 - $WORKFLOW_VAR1\nWORKFLOW_VAR2 - $WORKFLOW_VAR2\nWORKFLOw_VAR1 (workflow) - ${{ $GITHUB_ENV.WORKFLOW_VAR1 }}"
+        run: echo -e "WORKFLOW_VAR1 - $WORKFLOW_VAR1\nWORKFLOW_VAR2 - $WORKFLOW_VAR2\nWORKFLOw_VAR1 (workflow) - $GITHUB_ENV.WORKFLOW_VAR1"
         env:
           WORKFLOW_VAR1: "Step-level"
           WORKFLOW_VAR2: "Step-level"
