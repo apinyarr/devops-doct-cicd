@@ -1,21 +1,22 @@
 ---
-name: Publish Maven Packages to GitHub Packages
+name: Install Maven Package from GitHub Packages and Run
 
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_run:
+    workflows: [Publish Maven Packages to GitHub Packages]
+    types:
+      - completed
 
 env:
   SEARCH_PATH: com.mycompany.app.App
   SEARCH_JAR: target/my-app-1.0-SNAPSHOT.jar
 
 jobs:
-  publish-maven-package:
+  install-maven-package:
     permissions:
-      packages: 'write'
+      packages: 'read'
     runs-on: ubuntu-latest
-  
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -26,21 +27,14 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-      
-      # - name: Run the Maven verify phase
-      #   run: mvn -f my-app/pom.xml --batch-mode --update-snapshots verify
 
       - name: Configure M2 Settings
         run: echo '${{secrets.DOT_M2_SETTINGS_XML}}' > ~/.m2/settings.xml
 
-      - name: Packaging
-        run: mvn -f my-app/pom.xml package
+      - name: Install Packages from GitHub Packages
+        run: mvn -f my-app/pom.xml install
 
       - name: Test Application
-        run: |
-          cd my-app
-          java -cp ${{env.SEARCH_JAR}} ${{env.SEARCH_PATH}}
-
-      - name: Publish the Package
-        run: mvn -f my-app/pom.xml deploy
-
+      run: |
+        cd my-app
+        java -cp ${{env.SEARCH_JAR}} ${{env.SEARCH_PATH}}
