@@ -3,7 +3,7 @@ name: Install Maven Package from GitHub Packages and Run
 
 on:
   workflow_run:
-    workflows: [Publish Maven Packages to GitHub Packages]
+    workflows: ['Publish Maven Packages to GitHub Packages']
     types:
       - completed
 
