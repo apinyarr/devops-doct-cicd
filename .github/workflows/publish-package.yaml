@@ -27,14 +27,14 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Debug step (will be removed)
-        run: |
-          mvn help:evaluate -Dexpression=settings.localRepository
-          pwd
-          ls -alrth ~/
+      # - name: Debug step (will be removed)
+      #   run: |
+      #     mvn help:evaluate -Dexpression=settings.localRepository
+      #     pwd
+      #     ls -alrth ~/
 
       - name: Configure M2 Settings
-        run: echo ${{secrets.DOT_M2_SETTINGS_XML}} > ~/.m2/settings.xml
+        run: echo ${{secrets.DOT_M2_SETTINGS_XML}} > /home/runner/.m2/settings.xml
 
       - name: Packaging
         run: mvn package
