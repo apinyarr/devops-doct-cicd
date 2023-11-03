@@ -34,17 +34,17 @@ jobs:
       #     ls -alrth ~/
       
       - name: Run the Maven verify phase
-        run: mvn --batch-mode --update-snapshots verify
+        run: mvn -f my-app/pom.xml --batch-mode --update-snapshots verify
 
       - name: Configure M2 Settings
         run: echo ${{secrets.DOT_M2_SETTINGS_XML}} > /home/runner/.m2/settings.xml
 
       - name: Packaging
-        run: mvn package
+        run: mvn -f my-app/pom.xml package
 
       - name: Test Application
         run: java -cp ${{env.SEARCH_JAR}} ${{env.SEARCH_PATH}}
 
       - name: Publish the Package
-        run: mvn deploy
+        run: mvn -f my-app/pom.xml deploy
 
