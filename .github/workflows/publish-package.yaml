@@ -18,7 +18,7 @@ jobs:
   
     steps:
       - name: Checkout Code
-        uses: action/checkout@v4
+        uses: action/checkout@v2
 
       - name: Setup JDK 17
         uses: action/setup-java@3
