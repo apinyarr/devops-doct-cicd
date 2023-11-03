@@ -30,6 +30,7 @@ jobs:
       - name: Debug step (will be removed)
         run: |
           mvn help:evaluate -Dexpression=settings.localRepository
+          pwd
           ls -alrth ~/
 
       - name: Configure M2 Settings
