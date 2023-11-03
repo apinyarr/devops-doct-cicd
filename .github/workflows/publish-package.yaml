@@ -18,10 +18,10 @@ jobs:
   
     steps:
       - name: Checkout Code
-        uses: action/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup JDK 17
-        uses: action/setup-java@3
+        uses: actions/setup-java@3
         with:
           java-version: 'openjdk64-17'
           distribution: 'temurin'
