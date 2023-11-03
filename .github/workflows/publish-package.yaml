@@ -1,0 +1,41 @@
+---
+name: Publish Maven Packages to GitHub Packages
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  SEARCH_PATH: com.mycompany.app.App
+  SEARCH_JAR: target/my-app-1.0-SNAPSHOT.jar
+
+jobs:
+  publish-maven-package:
+    permissions:
+      packages: 'write'
+    runs-on: ubuntu-latest
+  
+    steps:
+      - name: Checkout Code
+        uses: action/checkout@v4
+
+      - name: Setup JDK 17
+        uses: action/setup-java@3
+        with:
+          java-version: 'openjdk64-17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Configure M2 Settings
+        run: echo ${{secrets.DOT_M2_SETTINGS_XML}} > ~/.m2/settings.xml
+
+      - name: Packaging
+        run: mvn package
+
+      - name: Test Application
+        run: java -cp ${{env.SEARCH_JAR}} ${{env.SEARCH_PATH}}
+
+      - name: Publish the Package
+        run: mvn deploy
+
