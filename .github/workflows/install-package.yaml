@@ -1,0 +1,40 @@
+---
+name: Install Maven Package from GitHub Packages and Run
+
+on:
+  workflow_run:
+    workflows: [Publish Maven Packages to GitHub Packages]
+    types:
+      - completed
+
+env:
+  SEARCH_PATH: com.mycompany.app.App
+  SEARCH_JAR: target/my-app-1.0-SNAPSHOT.jar
+
+jobs:
+  install-maven-package:
+    permissions:
+      packages: 'read'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Configure M2 Settings
+        run: echo '${{secrets.DOT_M2_SETTINGS_XML}}' > ~/.m2/settings.xml
+
+      - name: Install Packages from GitHub Packages
+        run: mvn -f my-app/pom.xml install
+
+      - name: Test Application
+        run: |
+          cd my-app
+          java -cp ${{env.SEARCH_JAR}} ${{env.SEARCH_PATH}}
