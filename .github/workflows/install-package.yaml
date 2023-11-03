@@ -32,9 +32,9 @@ jobs:
         run: echo '${{secrets.DOT_M2_SETTINGS_XML}}' > ~/.m2/settings.xml
 
       - name: Install Packages from GitHub Packages
-        run: mvn -f installed-app/pom.xml install
+        run: mvn -f my-app/pom.xml install
 
       - name: Test Application
         run: |
-          cd installed-app
+          cd my-app
           java -cp ${{env.SEARCH_JAR}} ${{env.SEARCH_PATH}}
