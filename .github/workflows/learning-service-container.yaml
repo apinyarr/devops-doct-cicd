@@ -45,3 +45,6 @@ jobs:
 
       - name: Run App for DB Connecting Test
         run: python3 app/main.py &
+
+      - name: Test App
+        run: curl http://127.0.0.1:8088/search?word=blue
