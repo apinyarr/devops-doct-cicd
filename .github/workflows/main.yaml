@@ -8,9 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to say hello
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Hello world action step
         id: hello
-        uses: ../.github/actions/hello-world-docker-action
+        uses: ./.github/actions/hello-world-docker-action
         with:
           who-to-greet: 'Mona the Octocat'
       # Use the output from the `hello` step
