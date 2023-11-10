@@ -24,7 +24,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
-          repository: 'https://github.com/apinyarr/doct-cbd3324-backend.git'
+          repository: 'apinyarr/doct-cbd3324-backend'
           token: '${{secrets.GH_TOKEN}}'
 
       - name: List cloned repo
