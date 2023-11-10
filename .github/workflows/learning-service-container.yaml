@@ -9,7 +9,7 @@ on:
 jobs:
   container-job:
     runs-on: ubuntu-latest
-    container: python:3.13.0a1-alpine3.18
+    # container: python:3.13.0a1-alpine3.18
 
     # services:
     #   mongodb:
@@ -32,6 +32,11 @@ jobs:
         run: |
           pwd
           ls -alrth
+          
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8.x'
 
       - name: Install Python Requirements
         run: |
