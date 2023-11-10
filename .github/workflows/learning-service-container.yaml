@@ -11,14 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     container: python:3.13.0a1-alpine3.18
 
-    services:
-      mongodb:
-        image: mongo:6.0.4-jammy
-        options: >-
-          --health-cmd "mongosh --eval 'db.runCommand(\"ping\").ok' --quiet"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+    # services:
+    #   mongodb:
+    #     image: mongo:6.0.4-jammy
+    #     options: >-
+    #       --health-cmd "mongosh --eval 'db.runCommand(\"ping\").ok' --quiet"
+    #       --health-interval 10s
+    #       --health-timeout 5s
+    #       --health-retries 5
 
     steps:
       - name: Checkout Code
@@ -27,7 +27,7 @@ jobs:
           repository: 'apinyarr/doct-cbd3324-backend'
           # token: '${{secrets.GH_TOKEN}}'
           github-server-url: 'https://${{ secrets.GH_USER }}:${{ secrets.GH_TOKEN }}@github.com'
-          ref: 'refs/heads/v1.0'
+          ref: 'refs/tags/v1.0'
           # fetch-depth: 0
           # fetch-tags: true
 
