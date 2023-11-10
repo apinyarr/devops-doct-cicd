@@ -35,7 +35,7 @@ jobs:
 
       - name: Install Python Requirements
         run: |
-          pip3 install urllib3
+          pip3 install urllib3 six
           pip3 install -r requirements.txt
 
       - name: Run App for DB Connecting Test
