@@ -35,7 +35,7 @@ jobs:
 
       - name: Install Python Requirements
         run: |
-          echo 'urllib3==2.31.0' >> requirements.txt
+          echo 'urllib3 == 2.31.0' >> requirements.txt
           pip install -r requirements.txt
 
       - name: Run App for DB Connecting Test
