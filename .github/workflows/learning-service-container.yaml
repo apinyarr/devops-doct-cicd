@@ -36,7 +36,7 @@ jobs:
       - name: Install Python Requirements
         run: |
           echo -e '\nurllib3 == 1.25.8' >> requirements.txt
-          pip install -r requirements.txt
+          pip install --no-cache-dir -r requirements.txt
 
       - name: Run App for DB Connecting Test
         run: python3 app/main.py
