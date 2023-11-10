@@ -28,7 +28,7 @@ jobs:
           # token: '${{secrets.GH_TOKEN}}'
           github-server-url: 'https://${{ secrets.GH_USER }}:${{ secrets.GH_TOKEN }}@github.com'
           ref: 'refs/tags/v1.0'
-          # fetch-depth: 0
+          fetch-depth: 0
           # fetch-tags: true
 
       - name: List cloned repo
