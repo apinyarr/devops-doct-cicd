@@ -1,9 +1,10 @@
 ---
 name: MongoDB container example
 run-name: MongoDB service container test
-on: Push
-  branches:
-    - 'play-service-container'
+on: 
+  push:
+    branches:
+      - 'play-service-container'
 
 jobs:
   container-job:
