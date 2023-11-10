@@ -27,6 +27,7 @@ jobs:
           repository: 'apinyarr/doct-cbd3324-backend'
           # token: '${{secrets.GH_TOKEN}}'
           github-server-url: 'https://${{ secrets.GH_USER }}:${{ secrets.GH_TOKEN }}@github.com'
+          ref: 'v1.0'
 
       - name: List cloned repo
         run: |
