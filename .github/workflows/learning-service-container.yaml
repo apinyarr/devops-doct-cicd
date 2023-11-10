@@ -25,8 +25,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: apinyarr/doct-cbd3324-backend
-          # token: '${{secrets.GH_TOKEN}}'
-          github-server-url: 'https://${{ secrets.GH_USER }}:${{ secrets.GH_TOKEN }}@github.com'
+          token: '${{secrets.GH_TOKEN}}'
+          # github-server-url: 'https://${{ secrets.GH_USER }}:${{ secrets.GH_TOKEN }}@github.com'
           ref: refs/tags/v1.0
           # fetch-depth: 0
           # fetch-tags: true
