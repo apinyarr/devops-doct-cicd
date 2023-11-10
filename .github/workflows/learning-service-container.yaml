@@ -35,3 +35,6 @@ jobs:
         run: |
           pwd
           ls -alrth
+
+      - name: Install Python Requirements
+        run: pip install -r requirements.txt
