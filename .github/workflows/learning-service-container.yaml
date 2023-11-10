@@ -35,8 +35,7 @@ jobs:
 
       - name: Install Python Requirements
         run: |
-          echo -e '\nurllib3 == 1.25.8' >> requirements.txt
-          echo -e '\nsix == 1.14.0' >> requirement.txt
+          pip3 install urllib3
           pip3 install -r requirements.txt
 
       - name: Run App for DB Connecting Test
