@@ -11,9 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     container: python:3.13.0a1-alpine3.18
 
-    permissions:
-      contents: 'read'
-
     services:
       mongodb:
         image: mongo:6.0.4-jammy
@@ -28,7 +25,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: 'apinyarr/doct-cbd3324-backend'
-          token: '${{secrets.GH_TOKEN}}'
+          # token: '${{secrets.GH_TOKEN}}'
+          github-server-url: 'https://${{ secrets.GH_USER }}:${{ secrets.GH_TOKEN }}@github.com'
 
       - name: List cloned repo
         run: |
