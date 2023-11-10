@@ -27,7 +27,7 @@ jobs:
           repository: 'apinyarr/doct-cbd3324-backend'
           # token: '${{secrets.GH_TOKEN}}'
           github-server-url: 'https://${{ secrets.GH_USER }}:${{ secrets.GH_TOKEN }}@github.com'
-          ref: 'master'
+          ref: 'refs/heads/v1.0'
           # fetch-depth: 0
           # fetch-tags: true
 
